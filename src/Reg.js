@@ -1,18 +1,43 @@
-import { BrowserRouter, Routes,Route } from "react-router-dom"
-import Reg from "./Reg"
-import Home from "./Home"
-function App()
+import axios from "axios"
+import { useState } from "react"
+function Reg()
 {
+   const[data,setdata]=useState(
+    {
+      username:"",
+      email:"",
+      password:""
+    }
+   )
+   const changeName=(e)=>
+   {
+      setdata({...data,[e.target.name]:e.target.value})
+   }
+   const submit= async()=>
+   {
+      try
+      {
+        //  const res=await axios.post("http://localhost:8080/reg",data)
+        const res = await axios.post(
+        "https://cseghrender-a06r.onrender.com",
+        data
+      )
+         alert(res.data)
+      }
+      catch(xyz)
+      {
+        //  alert(xyz.response.data)
+         alert(xyz.response?.data || "Error")
+      }
+   }
     return(
       <>
-         <h1>Iam App</h1>
-         <BrowserRouter>
-           <Routes>
-              <Route path="/reg" element={<Reg/>}/>
-              <Route path="/h" element={<Home/>}/>
-           </Routes>
-         </BrowserRouter>
+         <h1>iam App</h1>
+          <input onChange={changeName} name="username" placeholder="enter username"/>
+          <input onChange={changeName} name="email" placeholder="enter email"/>
+          <input onChange={changeName} name="password" placeholder="enter password"/>
+          <button onClick={submit}>register</button>
       </>
     )
 }
-export default App
+export default Reg
